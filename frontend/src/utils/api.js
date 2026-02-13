@@ -1,7 +1,6 @@
 
-const API_BASE = process.env.REACT_APP_API_URL
-    ? `${process.env.REACT_APP_API_URL}/api`
-    : '/api';
+// On Vercel, we use relative paths so rewrites work automatically
+const API_BASE = '/api';
 
 const getHeaders = (token) => {
     const headers = {
