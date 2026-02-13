@@ -68,13 +68,22 @@ const Leaderboard = () => {
                             <td style={{ padding: '10px' }}>{athlete.name}</td>
                             <td style={{ padding: '10px' }}>
                                 {athlete.status === 'finished' && athlete.totalTime
-                                    ? `${Math.floor(athlete.totalTime / 1000)}s`
+                                    ? (() => {
+                                        const seconds = Math.floor(athlete.totalTime / 1000);
+                                        const m = Math.floor(seconds / 60);
+                                        const s = seconds % 60;
+                                        return `${m}m ${s}s`;
+                                    })()
                                     : athlete.status === 'running'
-                                        ? '⏱️ In Progress'
+                                        ? <span style={{ color: '#f59e0b' }}>⏱️ Running</span>
                                         : '-'}
                             </td>
                             <td style={{ padding: '10px' }}>
-                                {athlete.status === 'finished' ? '🏁 Finished' : '🏃 Running'}
+                                {athlete.status === 'finished'
+                                    ? <span style={{ color: '#10b981', fontWeight: 'bold' }}>🏁 Finished</span>
+                                    : athlete.status === 'running'
+                                        ? <span style={{ color: '#3b82f6' }}>🏃 On Course</span>
+                                        : <span style={{ color: '#9ca3af' }}>Not Started</span>}
                             </td>
                         </tr>
                     ))}
