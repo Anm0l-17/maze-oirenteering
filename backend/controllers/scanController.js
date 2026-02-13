@@ -61,9 +61,32 @@ export const scanCheckpoint = async (req, res) => {
       const liveData = await generateLiveData();
       req.io.emit("adminLiveUpdate", liveData);
 
-      const leaderboard = await Athlete.find({
-        status: "finished"
-      }).sort({ totalTime: 1 });
+      // Emitting FULL leaderboard for consistency with controller
+      const allAthletes = await Athlete.find().sort({ totalTime: 1 });
+
+      // Sort in memory to match complex sort logic if needed, or trust totalTime sort
+      // (Similar to leaderboardController)
+      const leaderboard = allAthletes.map((athlete, index) => ({
+        _id: athlete._id,
+        rank: index + 1,
+        name: athlete.name,
+        status: athlete.status,
+        totalTime: athlete.totalTime,
+        checkpoints: athlete.checkpoints
+      }));
+
+      // Sort
+      leaderboard.sort((a, b) => {
+        const score = (status) => {
+          if (status === 'finished') return 0;
+          if (status === 'running') return 1;
+          return 2;
+        };
+        if (score(a.status) !== score(b.status)) return score(a.status) - score(b.status);
+        if (a.status === 'finished') return (a.totalTime || 0) - (b.totalTime || 0);
+        return 0;
+      });
+      leaderboard.forEach((p, i) => p.rank = i + 1);
 
       req.io.emit("leaderboardUpdate", leaderboard);
 
