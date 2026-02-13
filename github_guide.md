@@ -58,3 +58,5 @@ git push
 ```
 
 > **Important:** If you faced "Serverless Function Crashed" on Vercel, I have updated `vercel.json` and `db.js` to fix it. Just run the commands above to push the fix!
+
+> **Update:** If you saw a **404 Not Found** error, I have updated `vercel.json` again to ensure the Frontend is built correctly. Please push again!
