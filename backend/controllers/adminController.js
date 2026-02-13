@@ -1,9 +1,11 @@
 import Athlete from "../models/Athlete.js";
 import { v4 as uuidv4 } from "uuid";
+import connectDB from "../config/db.js";
 
 
 // Public Registration
 export const registerAthlete = async (req, res) => {
+  await connectDB();
   try {
     const { name, email, year, department } = req.body;
 
@@ -110,6 +112,7 @@ export const generateLiveData = async () => {
 
 // 🌐 HTTP route controller
 export const getLiveDashboard = async (req, res) => {
+  await connectDB();
   try {
     const data = await generateLiveData();
     res.json(data);
@@ -120,6 +123,7 @@ export const getLiveDashboard = async (req, res) => {
 
 // Delete athlete - for admin panel
 export const deleteAthlete = async (req, res) => {
+  await connectDB();
   try {
     const { id } = req.params;
     await Athlete.deleteOne({ _id: id });

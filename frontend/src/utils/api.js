@@ -21,8 +21,14 @@ export const validateToken = async (token) => {
     });
 
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Invalid token');
+        let errorMessage = 'Invalid token';
+        try {
+            const error = await response.json();
+            errorMessage = error.message || errorMessage;
+        } catch (e) {
+            errorMessage = await response.text();
+        }
+        throw new Error(errorMessage);
     }
 
     return await response.json();
@@ -99,8 +105,18 @@ export const registerAthlete = async (athleteData) => {
     });
 
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Registration failed');
+        let errorMessage = 'Registration failed';
+        try {
+            const error = await response.json();
+            errorMessage = error.message || errorMessage;
+        } catch (e) {
+            errorMessage = await response.text();
+            // Handle Vercel 504 Gateway Timeout or similar HTML errors
+            if (errorMessage.startsWith('<!DOCTYPE html>')) {
+                errorMessage = `Server Error (${response.status}): Check Vercel Logs`;
+            }
+        }
+        throw new Error(errorMessage);
     }
 
     return await response.json();
