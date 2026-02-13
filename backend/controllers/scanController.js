@@ -1,7 +1,9 @@
 import Athlete from "../models/Athlete.js";
 import { generateLiveData } from "./adminController.js";
+import connectDB from "../config/db.js";
 
 export const scanCheckpoint = async (req, res) => {
+  await connectDB();
   try {
     const { token, checkpointId } = req.body;
     const now = new Date();
