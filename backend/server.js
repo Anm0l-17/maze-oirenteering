@@ -42,6 +42,11 @@ app.use("/api/auth", authRoutes);
 // Initialize socket logic
 initSocket(io);
 
+// Health Check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', time: new Date() });
+});
+
 const PORT = process.env.PORT || 5000;
 
 if (process.env.NODE_ENV !== 'production') {
