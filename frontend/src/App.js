@@ -9,6 +9,7 @@ import Checkpoint from './pages/Checkpoint';
 import Leaderboard from './pages/Leaderboard';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
+import Finish from './pages/Finish';
 
 // Higher-order component for Admin Route protection
 const AdminRoute = ({ children }) => {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/registration-success" element={<RegistrationSuccess />} />
           <Route path="/login" element={<Login />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/finish" element={<Finish />} />
           <Route path="/admin/login" element={<AdminLogin />} />
 
           {/* Athlete Routes (Protected by AuthContext inside component) */}
