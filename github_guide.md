@@ -56,3 +56,5 @@ git add .
 git commit -m "Description of changes"
 git push
 ```
+
+> **Important:** If you faced "Serverless Function Crashed" on Vercel, I have updated `vercel.json` and `db.js` to fix it. Just run the commands above to push the fix!
